@@ -56,6 +56,20 @@ exports.updateSauce = (req, res, next) => {
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
+      if (!sauce) {
+        res.status(404).json({
+          error: new Error("Sauce non trouvée"),
+        });
+      }
+      /*après avoir passé l'userId dans la req on verifie si il correspond bien a celui apparenté a la sauce 
+      
+      */
+      if (sauce.userId !== req.auth.userId) {
+        res.status(404).json({
+          error: new Error("No such Thing!"),
+        });
+      }
+
       const filename = sauce.imageUrl.split("/images/")[1];
       //je supprime le fichier
       fs.unlink(`images/${filename}`, () => {
@@ -65,6 +79,7 @@ exports.deleteSauce = (req, res, next) => {
           .catch((error) => res.status(400).json({ error }));
       });
     })
+
     .catch((error) => res.status(500).json({ error }));
 };
 
@@ -76,6 +91,8 @@ exports.likeSauce = (req, res, next) => {
   switch (like) {
     //Si mon like renvoie 1
     case 1:
+      /*on verifie que l'id est egale a l'id de la sauce de la base de donnée
+       ensuite on ajoute dans le tableau l'id de l'utilisateur qui a liker et on incremente le like de1*/
       Sauce.updateOne(
         { _id: sauceId },
         { $push: { usersLiked: userId }, $inc: { likes: +1 } }
@@ -84,6 +101,7 @@ exports.likeSauce = (req, res, next) => {
         .then(res.status(200).json({ message: "j'aime" }))
         .catch((error) => res.status(400).json({ error }));
       break;
+    //On verifie que la sauce a été liker par l'utulisateur en verifiant son userId dans le tableau et si cest le cas on décremente ou incremente
 
     case 0:
       Sauce.findOne({ _id: sauceId }).then((sauce) => {
@@ -106,6 +124,7 @@ exports.likeSauce = (req, res, next) => {
       });
       break;
 
+    //on stock l'id de l'utilisateur dans le tableau usersdisliked
     case -1:
       Sauce.updateOne(
         { _id: sauceId },

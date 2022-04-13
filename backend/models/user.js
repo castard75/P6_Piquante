@@ -1,7 +1,7 @@
 //importation de mongoose pour utiliser son système de modèle
 const mongoose = require("mongoose");
 
-//importation de unique validator pour empecher les utilisateurs d'avoir le meme email
+//importation de unique validator pour empecher les utilisateurs d'avoir le même email
 const uniqueValidator = require("mongoose-unique-validator");
 
 /*Dans notre schéma, la valeur unique avec l'élément mongoose-unique-validator, 

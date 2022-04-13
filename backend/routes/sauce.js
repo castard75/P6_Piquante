@@ -6,6 +6,7 @@ const multer = require("../middleware/multer-config");
 //Importation de notre controller pour le sauces
 const sauceCtrl = require("../controllers/sauce");
 
+//on fait l'authentification puis on appel la sauce ou les sauces
 router.get("/", auth, sauceCtrl.getAllSauce);
 router.post("/", auth, multer, sauceCtrl.createSauce);
 router.get("/:id", auth, sauceCtrl.getOneSauce);
