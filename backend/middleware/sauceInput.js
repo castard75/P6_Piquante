@@ -3,6 +3,7 @@ module.exports = (req, res, next) => {
   if (JSON.parse(req.body.sauce !== undefined)) {
     const sauce = JSON.parse(req.body.sauce);
     let { name, manufacturer, description, mainPepper } = sauce;
+
     let TabToTrim = [];
 
     function toTrim(...element) {
