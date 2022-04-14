@@ -8,7 +8,7 @@ const path = require("path");
 const userRoutes = require("./routes/user");
 
 const sauceRoutes = require("./routes/sauce");
-//Connectez votre API à votre cluster MongoDB
+//Connectez votre API à votre cluster Mongo
 mongoose
   .connect(process.env.SECRET_DB, {
     useNewUrlParser: true,
