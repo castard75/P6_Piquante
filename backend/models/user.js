@@ -4,14 +4,13 @@ const mongoose = require("mongoose");
 //importation de unique validator pour empecher les utilisateurs d'avoir le même email
 const uniqueValidator = require("mongoose-unique-validator");
 
-/*Dans notre schéma, la valeur unique avec l'élément mongoose-unique-validator, 
- s'assurera qu'aucun des deux utilisateurs ne peut partager la même adresse e-mail */
+/*Optimise la structure du Back-end */
 const userSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 });
 
-//on applique unique Validator a notre schema
+/*Empêche les utilisateur d'avoir la même adresse e-mail */
 userSchema.plugin(uniqueValidator);
 
 //exportation du schema
